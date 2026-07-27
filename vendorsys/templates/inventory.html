@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Inventory Management</title>
+
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+
+body{
+
+    background:#f1f5f9;
+    color:#1e293b;
+
+}
+
+
+/* Sidebar */
+
+.sidebar{
+
+    position:fixed;
+    top:0;
+    left:0;
+
+    width:250px;
+    height:100vh;
+
+    background:linear-gradient(180deg,#312e81,#4f46e5,#7c3aed);
+
+    padding:25px 20px;
+
+    color:white;
+
+}
+
+
+.logo{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    margin-bottom:40px;
+
+}
+
+
+.logo-box{
+
+    width:50px;
+    height:50px;
+
+    background:white;
+    color:#4f46e5;
+
+    border-radius:14px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:22px;
+
+}
+
+
+.logo h2{
+
+    font-size:22px;
+
+}
+
+
+
+.menu{
+
+    list-style:none;
+
+}
+
+
+
+.menu li{
+
+    margin:15px 0;
+
+}
+
+
+
+.menu a{
+
+    display:block;
+
+    padding:14px;
+
+    color:white;
+
+    text-decoration:none;
+
+    border-radius:12px;
+
+}
+
+
+
+.menu a:hover,
+.menu .active{
+
+    background:white;
+
+    color:#4f46e5;
+
+}
+
+
+
+/* Main */
+
+.main{
+
+    margin-left:250px;
+
+    padding:30px;
+
+}
+
+
+
+/* Topbar */
+
+.topbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:35px;
+
+}
+
+
+
+.search{
+
+    background:white;
+
+    width:400px;
+
+    padding:15px 20px;
+
+    border-radius:15px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.05);
+
+}
+
+
+
+.search input{
+
+    width:100%;
+
+    border:none;
+
+    outline:none;
+
+    font-size:15px;
+
+}
+
+
+
+.profile{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+
+
+.avatar{
+
+    width:50px;
+
+    height:50px;
+
+    border-radius:50%;
+
+    background:#4f46e5;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-weight:bold;
+
+}
+
+
+
+/* Header */
+
+
+.page-title{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:30px;
+
+}
+
+
+
+.page-title h1{
+
+    font-size:32px;
+
+}
+
+
+
+.page-title p{
+
+    color:#64748b;
+
+    margin-top:8px;
+
+}
+
+
+
+.add-btn{
+
+    background:#4f46e5;
+
+    color:white;
+
+    border:none;
+
+    padding:15px 25px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+    text-decoration:none;
+
+    display:inline-block;
+
+}
+
+
+
+/* Filters */
+
+
+.filters{
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:20px;
+
+    display:flex;
+
+    gap:20px;
+
+    margin-bottom:30px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.05);
+
+}
+
+
+
+.filters input{
+
+    padding:14px;
+
+    border:none;
+
+    background:#f1f5f9;
+
+    border-radius:12px;
+
+}
+
+
+
+.filters input{
+
+    flex:1;
+
+}
+
+
+.filters button{
+
+    padding:14px 22px;
+
+    border:none;
+
+    background:#4f46e5;
+
+    color:white;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="logo">
+<div class="logo-box">I</div>
+<h2>VendorSys</h2>
+</div>
+
+<ul class="menu">
+<li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+<li><a href="{{ url_for('inventory') }}" class="active">Inventory</a></li>
+<li><a href="{{ url_for('add_product') }}">Add Product</a></li>
+<li><a href="{{ url_for('alerts') }}">Expiry Alerts</a></li>
+<li><a href="{{ url_for('profile') }}">Profile</a></li>
+<li><a href="{{ url_for('logout') }}">Logout</a></li>
+</ul>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="topbar">
+
+<div class="search">
+<input type="text" placeholder="Type to filter the table below" onkeyup="filterTable(this.value)">
+</div>
+
+<div class="profile">
+<div class="avatar">{{ session['user'][0]|upper }}</div>
+<div><b>{{ session['user'] }}</b></div>
+</div>
+
+</div>
+
+<div class="page-title">
+<div>
+<h1>Inventory Management</h1>
+<p>Full stock list for your shop</p>
+</div>
+<a class="add-btn" href="{{ url_for('add_product') }}">+ Add Product</a>
+</div>
+
+<!-- Inventory Table -->
+
+<div class="inventory-box">
+
+
+<div class="box-header">
+
+<h2>
+Product Inventory
+</h2>
+
+</div>
+
+
+
+<table id="inventoryTable">
+
+
+<thead>
+
+<tr>
+
+<th>Product</th>
+<th>Category</th>
+<th>Quantity</th>
+<th>Price</th>
+<th>Expiry</th>
+<th>Status</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+
+
+<tbody>
+
+{% for p in products %}
+<tr>
+
+<td>
+<div class="product">
+<div class="icon">{{ p[1][0]|upper }}</div>
+{{ p[1] }}
+</div>
+</td>
+
+<td>{{ p[2] }}</td>
+
+<td>{{ p[3] }}</td>
+
+<td>₹{{ p[4] }}</td>
+
+<td>{{ p[5] }}</td>
+
+<td>
+{% if p[5] < today %}
+<span class="expired">Expired</span>
+{% elif p[5] <= today_plus_7 %}
+<span class="soon">Soon</span>
+{% else %}
+<span class="safe">Safe</span>
+{% endif %}
+</td>
+
+<td>
+<a class="edit" href="{{ url_for('edit_product', id=p[0]) }}">Edit</a>
+<a class="delete" href="{{ url_for('delete_product', id=p[0]) }}" onclick="return confirm('Delete this product?');">Delete</a>
+</td>
+
+</tr>
+{% else %}
+<tr>
+<td colspan="7" style="text-align:center;color:#64748b;padding:20px;">No products in inventory yet.</td>
+</tr>
+{% endfor %}
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+</div>
+
+
+
+<!-- CSS -->
+
+
+<style>
+
+
+.inventory-box{
+
+background:white;
+
+padding:25px;
+
+border-radius:20px;
+
+box-shadow:0 10px 25px rgba(0,0,0,.05);
+
+}
+
+
+
+.box-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:25px;
+
+}
+
+
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+}
+
+
+
+th{
+
+background:#f8fafc;
+
+padding:15px;
+
+text-align:left;
+
+color:#64748b;
+
+}
+
+
+
+td{
+
+padding:16px;
+
+border-bottom:1px solid #e2e8f0;
+
+}
+
+
+
+tr:hover{
+
+background:#f8fafc;
+
+}
+
+
+
+.product{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+font-weight:bold;
+
+}
+
+
+
+.icon{
+
+height:40px;
+
+width:40px;
+
+border-radius:12px;
+
+background:#eef2ff;
+
+color:#4f46e5;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+}
+
+
+
+td span{
+
+padding:7px 14px;
+
+border-radius:20px;
+
+font-size:13px;
+
+font-weight:bold;
+
+}
+
+
+
+.expired{
+
+background:#fee2e2;
+
+color:#dc2626;
+
+}
+
+
+
+.soon{
+
+background:#fef3c7;
+
+color:#b45309;
+
+}
+
+
+
+.safe{
+
+background:#dcfce7;
+
+color:#15803d;
+
+}
+
+
+
+.edit,
+.delete{
+
+padding:8px 12px;
+
+border:none;
+
+border-radius:8px;
+
+cursor:pointer;
+
+text-decoration:none;
+
+font-size:13px;
+
+}
+
+
+
+.edit{
+
+background:#eef2ff;
+
+color:#4f46e5;
+
+margin-right:6px;
+
+}
+
+
+
+.delete{
+
+background:#fee2e2;
+
+color:#dc2626;
+
+}
+
+
+
+/* Responsive */
+
+
+@media(max-width:900px){
+
+
+.sidebar{
+
+width:80px;
+
+}
+
+
+.logo h2,
+.menu span{
+
+display:none;
+
+}
+
+
+.main{
+
+margin-left:80px;
+
+}
+
+
+
+.filters{
+
+flex-wrap:wrap;
+
+}
+
+
+
+table{
+
+min-width:800px;
+
+}
+
+
+
+.inventory-box{
+
+overflow-x:auto;
+
+}
+
+
+
+}
+
+
+
+</style>
+
+
+<script>
+function filterTable(value){
+    value = value.toLowerCase();
+    var rows = document.querySelectorAll("#inventoryTable tbody tr");
+    rows.forEach(function(row){
+        var text = row.textContent.toLowerCase();
+        row.style.display = text.includes(value) ? "" : "none";
+    });
+}
+</script>
+
+
+</body>
+
+</html>

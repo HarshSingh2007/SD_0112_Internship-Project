@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Vendor Profile | VendorSys</title>
+
+
+<style>
+
+
+*{
+
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+
+}
+
+
+
+body{
+
+background:#f1f5f9;
+
+color:#1e293b;
+
+}
+
+
+
+/* SIDEBAR */
+
+
+.sidebar{
+
+position:fixed;
+
+left:0;
+
+top:0;
+
+width:250px;
+
+height:100vh;
+
+background:linear-gradient(180deg,#312e81,#4f46e5,#7c3aed);
+
+padding:25px 20px;
+
+color:white;
+
+}
+
+
+
+.logo{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+margin-bottom:40px;
+
+}
+
+
+
+.logo-box{
+
+height:50px;
+
+width:50px;
+
+background:white;
+
+color:#4f46e5;
+
+border-radius:14px;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+font-size:22px;
+
+}
+
+
+
+.logo h2{
+
+font-size:22px;
+
+}
+
+
+
+.menu{
+
+list-style:none;
+
+}
+
+
+
+.menu li{
+
+margin:15px 0;
+
+}
+
+
+
+.menu a{
+
+display:block;
+
+padding:14px;
+
+color:white;
+
+text-decoration:none;
+
+border-radius:12px;
+
+}
+
+
+
+.menu a:hover,
+.menu .active{
+
+background:white;
+
+color:#4f46e5;
+
+}
+
+
+
+
+/* MAIN */
+
+
+.main{
+
+margin-left:250px;
+
+padding:30px;
+
+}
+
+
+
+
+
+/* TOPBAR */
+
+
+.topbar{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:35px;
+
+}
+
+
+
+.search{
+
+background:white;
+
+width:400px;
+
+padding:15px 20px;
+
+border-radius:15px;
+
+}
+
+
+
+.search input{
+
+width:100%;
+
+border:none;
+
+outline:none;
+
+font-size:15px;
+
+}
+
+
+
+.profile-mini{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+}
+
+
+
+.avatar{
+
+height:50px;
+
+width:50px;
+
+background:#4f46e5;
+
+border-radius:50%;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+color:white;
+
+font-weight:bold;
+
+}
+
+
+
+
+
+/* HEADER */
+
+
+.heading{
+
+margin-bottom:30px;
+
+}
+
+
+
+.heading h1{
+
+font-size:32px;
+
+}
+
+
+
+.heading p{
+
+color:#64748b;
+
+margin-top:8px;
+
+}
+
+
+
+
+/* PROFILE CARD */
+
+
+.profile-card{
+
+background:white;
+
+padding:35px;
+
+border-radius:25px;
+
+box-shadow:0 10px 25px rgba(0,0,0,.05);
+
+display:flex;
+
+align-items:center;
+
+gap:30px;
+
+margin-bottom:30px;
+
+}
+
+
+
+.big-avatar{
+
+height:100px;
+
+width:100px;
+
+border-radius:50%;
+
+background:linear-gradient(135deg,#4f46e5,#7c3aed);
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+font-size:35px;
+
+color:white;
+
+font-weight:bold;
+
+}
+
+
+
+.profile-info h2{
+
+margin-bottom:8px;
+
+}
+
+
+
+.profile-info p{
+
+color:#64748b;
+
+}
+
+
+
+/* SETTINGS GRID */
+
+
+.settings-grid{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:25px;
+
+}
+
+
+
+.card{
+
+background:white;
+
+padding:30px;
+
+border-radius:20px;
+
+box-shadow:0 10px 25px rgba(0,0,0,.05);
+
+}
+
+
+
+.card h2{
+
+margin-bottom:25px;
+
+}
+
+
+
+
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+
+<!-- SIDEBAR -->
+
+
+<div class="sidebar">
+
+
+<div class="logo">
+
+
+<div class="logo-box">
+V
+</div>
+
+
+<h2>
+VendorSys
+</h2>
+
+
+</div>
+
+
+
+<ul class="menu">
+
+<li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+<li><a href="{{ url_for('inventory') }}">Inventory</a></li>
+<li><a href="{{ url_for('add_product') }}">Add Product</a></li>
+<li><a href="{{ url_for('alerts') }}">Expiry Alerts</a></li>
+<li><a href="{{ url_for('profile') }}" class="active">Profile</a></li>
+<li><a href="{{ url_for('logout') }}">Logout</a></li>
+
+</ul>
+
+
+</div>
+
+
+
+
+
+<!-- MAIN -->
+
+
+<div class="main">
+
+
+
+<div class="topbar">
+
+
+<div class="search">
+
+<input type="text" placeholder="Search">
+
+</div>
+
+
+
+<div class="profile-mini">
+
+
+<div class="avatar">
+{{ user[5][0]|upper }}
+</div>
+
+
+<div>
+
+<b>
+{{ user[5] }}
+</b>
+
+
+<br>
+
+
+<small>
+Owner
+</small>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="heading">
+
+
+<h1>
+Vendor Profile
+</h1>
+
+
+<p>
+Manage your account and shop settings
+</p>
+
+
+</div>
+
+
+
+
+
+
+<!-- PROFILE -->
+
+
+<div class="profile-card">
+
+
+<div class="big-avatar">
+
+{{ user[2][0]|upper }}
+
+</div>
+
+
+<div class="profile-info">
+
+
+<h2>
+{{ user[2] }}
+</h2>
+
+
+<p>
+Shop Owner | {{ user[1] }}
+</p>
+
+
+<p>
+Email: {{ user[3] }}
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- SETTINGS -->
+
+
+<div class="settings-grid">
+
+
+<div class="card">
+
+
+<h2>
+Shop Information
+</h2>
+
+
+
+<div class="input-group">
+<label>Shop Name</label>
+<input value="{{ user[1] }}" disabled>
+</div>
+
+
+<div class="input-group">
+<label>Owner Name</label>
+<input value="{{ user[2] }}" disabled>
+</div>
+
+
+<div class="input-group">
+<label>Contact Number</label>
+<input value="{{ user[4] }}" disabled>
+</div>
+
+
+<div class="input-group">
+<label>Email</label>
+<input value="{{ user[3] }}" disabled>
+</div>
+
+
+</div>
+
+
+
+<div class="card">
+
+
+<h2>
+Account
+</h2>
+
+
+
+<div class="input-group">
+<label>Username</label>
+<input value="{{ user[5] }}" disabled>
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+<!-- LOGOUT -->
+
+
+<div class="logout-box">
+
+
+<h2>
+Logout Account
+</h2>
+
+
+<p>
+Sign out from your vendor dashboard safely.
+</p>
+
+
+
+<a href="{{ url_for('logout') }}"><button type="button">Logout</button></a>
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<style>
+
+
+.input-group{
+
+display:flex;
+
+flex-direction:column;
+
+gap:8px;
+
+margin-bottom:18px;
+
+}
+
+
+
+.input-group label{
+
+font-weight:bold;
+
+}
+
+
+
+.input-group input{
+
+padding:14px;
+
+border:none;
+
+background:#f1f5f9;
+
+border-radius:12px;
+
+width:100%;
+
+}
+
+
+
+.logout-box{
+
+margin-top:30px;
+
+background:white;
+
+padding:25px;
+
+border-radius:20px;
+
+box-shadow:0 10px 25px rgba(0,0,0,.05);
+
+}
+
+
+
+.logout-box p{
+
+color:#64748b;
+
+margin:10px 0 20px;
+
+}
+
+
+
+.logout-box button{
+
+background:#ef4444;
+
+color:white;
+
+border:none;
+
+padding:12px 25px;
+
+border-radius:12px;
+
+cursor:pointer;
+
+}
+
+
+
+.logout-box a{
+
+text-decoration:none;
+
+}
+
+
+
+
+
+@media(max-width:900px){
+
+
+.sidebar{
+
+width:80px;
+
+}
+
+
+.logo h2,
+.menu span{
+
+display:none;
+
+}
+
+
+.main{
+
+margin-left:80px;
+
+}
+
+
+.settings-grid{
+
+grid-template-columns:1fr;
+
+}
+
+
+.profile-card{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+}
+
+
+}
+
+
+
+</style>
+
+
+
+
+</body>
+
+</html>

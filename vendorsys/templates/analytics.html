@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Reports & Analytics | VendorSys</title>
+
+
+<style>
+
+
+*{
+
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+
+}
+
+
+body{
+
+background:#f1f5f9;
+
+color:#1e293b;
+
+}
+
+
+
+/* SIDEBAR */
+
+
+.sidebar{
+
+position:fixed;
+
+left:0;
+top:0;
+
+height:100vh;
+
+width:250px;
+
+background:linear-gradient(180deg,#312e81,#4f46e5,#7c3aed);
+
+padding:25px 20px;
+
+color:white;
+
+}
+
+
+
+.logo{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+margin-bottom:40px;
+
+}
+
+
+
+.logo-box{
+
+height:50px;
+
+width:50px;
+
+background:white;
+
+color:#4f46e5;
+
+border-radius:14px;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+font-size:22px;
+
+}
+
+
+
+.logo h2{
+
+font-size:22px;
+
+}
+
+
+
+.menu{
+
+list-style:none;
+
+}
+
+
+
+.menu li{
+
+margin:15px 0;
+
+}
+
+
+
+.menu a{
+
+display:block;
+
+padding:14px;
+
+color:white;
+
+text-decoration:none;
+
+border-radius:12px;
+
+}
+
+
+
+.menu a:hover,
+.menu .active{
+
+background:white;
+
+color:#4f46e5;
+
+}
+
+
+
+
+
+/* MAIN */
+
+
+.main{
+
+margin-left:250px;
+
+padding:30px;
+
+}
+
+
+
+
+
+/* TOPBAR */
+
+
+.topbar{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:35px;
+
+}
+
+
+
+.search{
+
+background:white;
+
+width:400px;
+
+padding:15px;
+
+border-radius:15px;
+
+box-shadow:0 8px 20px rgba(0,0,0,.05);
+
+}
+
+
+
+.search input{
+
+width:100%;
+
+border:none;
+
+outline:none;
+
+}
+
+
+
+.profile{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+}
+
+
+
+.avatar{
+
+height:50px;
+
+width:50px;
+
+border-radius:50%;
+
+background:#4f46e5;
+
+color:white;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-weight:bold;
+
+}
+
+
+
+
+
+/* HEADER */
+
+
+.heading{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:30px;
+
+}
+
+
+
+.heading h1{
+
+font-size:32px;
+
+}
+
+
+
+.heading p{
+
+color:#64748b;
+
+margin-top:8px;
+
+}
+
+
+
+/* ANALYTICS CARDS */
+
+
+.analytics{
+
+display:grid;
+
+grid-template-columns:repeat(4,1fr);
+
+gap:20px;
+
+margin-bottom:30px;
+
+}
+
+
+
+.card{
+
+background:white;
+
+padding:25px;
+
+border-radius:20px;
+
+box-shadow:0 10px 25px rgba(0,0,0,.05);
+
+}
+
+
+
+.card h2{
+
+font-size:30px;
+
+margin:15px 0;
+
+}
+
+
+
+.card p{
+
+color:#64748b;
+
+}
+
+
+
+.blue{
+
+border-left:6px solid #4f46e5;
+
+}
+
+
+.red{
+
+border-left:6px solid #ef4444;
+
+}
+
+
+.green{
+
+border-left:6px solid #22c55e;
+
+}
+
+
+.orange{
+
+border-left:6px solid #f59e0b;
+
+}
+
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+
+<!-- SIDEBAR -->
+
+
+<div class="sidebar">
+
+
+<div class="logo">
+
+
+<div class="logo-box">R</div>
+
+
+<h2>VendorSys</h2>
+
+
+</div>
+
+
+
+
+<ul class="menu">
+
+<li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+<li><a href="{{ url_for('inventory') }}">Inventory</a></li>
+<li><a href="{{ url_for('add_product') }}">Add Product</a></li>
+<li><a href="{{ url_for('alerts') }}">Expiry Alerts</a></li>
+<li><a href="{{ url_for('analytics') }}" class="active">Reports</a></li>
+<li><a href="{{ url_for('profile') }}">Profile</a></li>
+<li><a href="{{ url_for('logout') }}">Logout</a></li>
+
+</ul>
+
+
+
+</div>
+
+
+
+<!-- MAIN -->
+
+
+<div class="main">
+
+<div class="topbar">
+
+<div class="search">
+<input type="text" placeholder="Search reports">
+</div>
+
+<div class="profile">
+<div class="avatar">{{ session['user'][0]|upper }}</div>
+<div><b>{{ session['user'] }}</b></div>
+</div>
+
+</div>
+
+<div class="heading">
+<div>
+<h1>Reports & Analytics</h1>
+<p>Track your inventory performance and losses</p>
+</div>
+</div>
+
+
+<!-- ANALYTICS -->
+
+
+<div class="analytics">
+
+
+<div class="card blue">
+<p>Total Stock Value</p>
+<h2>₹{{ "%.2f"|format(total_stock_value) }}</h2>
+<span>Current inventory worth</span>
+</div>
+
+
+<div class="card red">
+<p>Expiry Loss</p>
+<h2>₹{{ "%.2f"|format(expiry_loss) }}</h2>
+<span>Value of already-expired products</span>
+</div>
+
+
+<div class="card green">
+<p>Total Products</p>
+<h2>{{ total_products }}</h2>
+<span>Distinct product entries</span>
+</div>
+
+
+<div class="card orange">
+<p>Total Units in Stock</p>
+<h2>{{ total_stock }}</h2>
+<span>Sum of all quantities</span>
+</div>
+
+
+</div>
+
+
+
+<!-- STOCK OVERVIEW -->
+
+
+<div class="section-box">
+
+<h2>Stock by Category</h2>
+
+{% for cat, qty in category_breakdown %}
+<div class="progress-item">
+<div class="label">
+<span>{{ cat }}</span>
+<b>{{ qty }} units</b>
+</div>
+<div class="progress">
+<div class="bar" style="width:{{ [ (qty / total_stock * 100) if total_stock else 0, 100 ] | min }}%;background:#4f46e5;"></div>
+</div>
+</div>
+{% else %}
+<p style="color:#64748b;margin-top:15px;">No products yet to break down by category.</p>
+{% endfor %}
+
+</div>
+
+<p style="margin-top:15px;color:#64748b;font-size:13px;">
+Average price per product: ₹{{ "%.2f"|format(average_price) }}
+</p>
+
+
+</div>
+
+
+<style>
+
+
+.section-box{
+
+background:white;
+
+padding:30px;
+
+border-radius:20px;
+
+box-shadow:0 10px 25px rgba(0,0,0,.05);
+
+margin-bottom:25px;
+
+}
+
+
+
+.progress-item{
+
+margin-top:20px;
+
+}
+
+
+
+.label{
+
+display:flex;
+
+justify-content:space-between;
+
+margin-bottom:8px;
+
+}
+
+
+
+.progress{
+
+height:12px;
+
+background:#e2e8f0;
+
+border-radius:20px;
+
+overflow:hidden;
+
+}
+
+
+
+.bar{
+
+height:100%;
+
+border-radius:20px;
+
+}
+
+
+
+@media(max-width:1000px){
+
+
+.sidebar{
+
+width:80px;
+
+}
+
+
+.logo h2,
+.menu span{
+
+display:none;
+
+}
+
+
+.main{
+
+margin-left:80px;
+
+}
+
+
+.analytics{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+
+}
+
+
+
+
+@media(max-width:600px){
+
+
+.topbar{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+gap:20px;
+
+}
+
+
+.search{
+
+width:100%;
+
+}
+
+
+.analytics{
+
+grid-template-columns:1fr;
+
+}
+
+
+}
+
+
+</style>
+
+
+
+</body>
+
+</html>

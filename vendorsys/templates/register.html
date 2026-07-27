@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Create Account | Vendor Inventory</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+background:linear-gradient(135deg,#312e81,#4f46e5,#7c3aed);
+position:relative;
+}
+
+body::before{
+content:"";
+position:absolute;
+width:450px;
+height:450px;
+background:rgba(255,255,255,.08);
+border-radius:50%;
+top:-140px;
+left:-120px;
+}
+
+body::after{
+content:"";
+position:absolute;
+width:350px;
+height:350px;
+background:rgba(255,255,255,.08);
+border-radius:50%;
+bottom:-120px;
+right:-80px;
+}
+
+.container{
+width:1180px;
+max-width:94%;
+height:700px;
+display:flex;
+background:rgba(255,255,255,.12);
+backdrop-filter:blur(18px);
+border-radius:28px;
+overflow:hidden;
+box-shadow:0 25px 60px rgba(0,0,0,.3);
+}
+
+/* LEFT */
+
+.left{
+flex:1;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:60px;
+color:white;
+}
+
+.content h1{
+font-size:48px;
+margin-bottom:18px;
+}
+
+.content p{
+line-height:1.8;
+opacity:.9;
+margin-bottom:35px;
+}
+
+.feature{
+display:flex;
+align-items:center;
+margin:18px 0;
+gap:15px;
+font-size:17px;
+}
+
+.feature i{
+width:46px;
+height:46px;
+border-radius:12px;
+background:rgba(255,255,255,.15);
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+/* RIGHT */
+
+.right{
+flex:1;
+background:white;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:40px;
+overflow-y:auto;
+}
+
+.card{
+width:100%;
+max-width:450px;
+}
+
+.card h2{
+font-size:34px;
+color:#1e293b;
+margin-bottom:8px;
+}
+
+.card p{
+color:#64748b;
+margin-bottom:30px;
+}
+
+.error{
+background:#fee2e2;
+color:#dc2626;
+padding:12px;
+border-radius:8px;
+text-align:center;
+margin-bottom:20px;
+}
+
+.input{
+position:relative;
+margin-bottom:18px;
+}
+
+.input i{
+position:absolute;
+left:18px;
+top:18px;
+color:#4f46e5;
+}
+
+.input input{
+width:100%;
+padding:16px 16px 16px 50px;
+border:none;
+background:#f1f5f9;
+border-radius:14px;
+font-size:15px;
+transition:.3s;
+}
+
+.input input:focus{
+outline:none;
+background:white;
+box-shadow:0 0 0 3px rgba(79,70,229,.15);
+}
+
+button{
+width:100%;
+padding:16px;
+border:none;
+border-radius:14px;
+background:linear-gradient(135deg,#4f46e5,#7c3aed);
+color:white;
+font-size:17px;
+font-weight:600;
+cursor:pointer;
+margin-top:10px;
+transition:.3s;
+}
+
+button:hover{
+transform:translateY(-3px);
+box-shadow:0 18px 35px rgba(79,70,229,.3);
+}
+
+.login{
+margin-top:25px;
+text-align:center;
+color:#64748b;
+}
+
+.login a{
+text-decoration:none;
+font-weight:600;
+color:#4f46e5;
+}
+
+.footer{
+margin-top:25px;
+text-align:center;
+font-size:13px;
+color:#94a3b8;
+}
+
+@media(max-width:950px){
+
+.container{
+flex-direction:column;
+height:auto;
+}
+
+.left{
+padding:45px 30px;
+text-align:center;
+}
+
+.content h1{
+font-size:38px;
+}
+
+.right{
+padding:35px 25px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="left">
+
+<div class="content">
+
+<h1>Create Your Store</h1>
+
+<p>
+Register your shop and start managing inventory, stock levels,
+and product expiry dates from one smart dashboard.
+</p>
+
+<div class="feature">
+<i class="fa-solid fa-user-check"></i>
+<span>Simple Vendor Registration</span>
+</div>
+
+<div class="feature">
+<i class="fa-solid fa-boxes-stacked"></i>
+<span>Unlimited Product Management</span>
+</div>
+
+<div class="feature">
+<i class="fa-solid fa-bell"></i>
+<span>Expiry Notifications</span>
+</div>
+
+<div class="feature">
+<i class="fa-solid fa-chart-pie"></i>
+<span>Inventory Insights</span>
+</div>
+
+</div>
+
+</div>
+
+<div class="right">
+
+<div class="card">
+
+<h2>Create Account</h2>
+
+<p>Register your shop to get started.</p>
+
+{% if error %}
+<div class="error">
+{{ error }}
+</div>
+{% endif %}
+
+<form action="/register" method="POST">
+
+<div class="input">
+<i class="fa-solid fa-shop"></i>
+<input type="text" name="shop_name" placeholder="Shop Name" required>
+</div>
+
+<div class="input">
+<i class="fa-solid fa-user"></i>
+<input type="text" name="owner_name" placeholder="Owner Name" required>
+</div>
+
+<div class="input">
+<i class="fa-solid fa-envelope"></i>
+<input type="email" name="email" placeholder="Email Address" required>
+</div>
+
+<div class="input">
+<i class="fa-solid fa-phone"></i>
+<input type="tel" name="phone" placeholder="Phone Number" required>
+</div>
+
+<div class="input">
+<i class="fa-solid fa-user-tag"></i>
+<input type="text" name="username" placeholder="Username" required>
+</div>
+
+<div class="input">
+<i class="fa-solid fa-lock"></i>
+<input type="password" name="password" placeholder="Password" required>
+</div>
+
+<div class="input">
+<i class="fa-solid fa-lock"></i>
+<input type="password" name="confirm_password" placeholder="Confirm Password" required>
+</div>
+
+<button type="submit">Create Account</button>
+
+<div class="login">
+Already have an account?
+<a href="/login">Login</a>
+</div>
+
+<div class="footer">
+© 2026 Vendor Inventory System
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,5 @@
+MYSQL_HOST = "localhost"
+MYSQL_USER = "root"
+MYSQL_PASSWORD = "280825"
+MYSQL_DB = "grocery_inventory"
+SECRET_KEY = "inventory123"

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Vendor Login</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
+
+}
+
+.login-box{
+
+width:400px;
+background:#fff;
+padding:40px;
+border-radius:15px;
+box-shadow:0 20px 40px rgba(0,0,0,.30);
+
+}
+
+h1{
+
+text-align:center;
+margin-bottom:10px;
+color:#2563eb;
+
+}
+
+p{
+
+text-align:center;
+margin-bottom:25px;
+color:#666;
+
+}
+
+.error{
+
+background:#fee2e2;
+color:#dc2626;
+padding:12px;
+border-radius:8px;
+text-align:center;
+margin-bottom:20px;
+
+}
+
+.input-box{
+
+margin-bottom:20px;
+
+}
+
+.input-box label{
+
+display:block;
+margin-bottom:8px;
+font-weight:600;
+
+}
+
+.input-box input{
+
+width:100%;
+padding:14px;
+border:1px solid #ccc;
+border-radius:8px;
+font-size:15px;
+
+}
+
+.input-box input:focus{
+
+outline:none;
+border-color:#2563eb;
+box-shadow:0 0 0 3px rgba(37,99,235,.15);
+
+}
+
+button{
+
+width:100%;
+padding:14px;
+background:#2563eb;
+color:white;
+border:none;
+border-radius:8px;
+font-size:16px;
+font-weight:600;
+cursor:pointer;
+transition:.3s;
+
+}
+
+button:hover{
+
+background:#1d4ed8;
+
+}
+
+.footer{
+
+text-align:center;
+margin-top:20px;
+font-size:14px;
+
+}
+
+.footer a{
+
+text-decoration:none;
+color:#2563eb;
+font-weight:600;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login-box">
+
+<h1>Vendor Login</h1>
+
+<p>Local Vendor Inventory System</p>
+
+{% if error %}
+<div class="error">
+{{ error }}
+</div>
+{% endif %}
+
+<form action="/login" method="POST">
+
+<div class="input-box">
+
+<label>Username</label>
+
+<input
+type="text"
+name="username"
+placeholder="Enter Username"
+required>
+
+</div>
+
+<div class="input-box">
+
+<label>Password</label>
+
+<input
+type="password"
+name="password"
+placeholder="Enter Password"
+required>
+
+</div>
+
+<button type="submit">
+Login
+</button>
+
+</form>
+
+<div class="footer">
+
+Don't have an account?
+
+<a href="/register">
+Register
+</a>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

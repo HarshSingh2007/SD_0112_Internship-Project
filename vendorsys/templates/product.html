@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Products | VendorSys</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+body{background:#f1f5f9;color:#1e293b;}
+.main{max-width:1100px;margin:30px auto;padding:0 20px;}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px;}
+.topbar h1{font-size:28px;}
+.topbar a{background:#4f46e5;color:white;padding:12px 20px;border-radius:10px;text-decoration:none;font-weight:bold;}
+.search-form{display:flex;gap:10px;margin-bottom:25px;}
+.search-form input{flex:1;padding:14px;border:none;background:white;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.05);}
+.search-form button{padding:14px 20px;border:none;background:#4f46e5;color:white;border-radius:10px;cursor:pointer;}
+.product-box{background:white;padding:25px;border-radius:20px;box-shadow:0 10px 25px rgba(0,0,0,.05);overflow-x:auto;}
+table{width:100%;border-collapse:collapse;min-width:700px;}
+th{background:#f8fafc;padding:15px;text-align:left;color:#64748b;}
+td{padding:15px;border-bottom:1px solid #e2e8f0;}
+.edit,.delete{padding:8px 14px;border:none;border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block;font-size:14px;}
+.edit{background:#eef2ff;color:#4f46e5;margin-right:8px;}
+.delete{background:#fee2e2;color:#dc2626;}
+.back{display:inline-block;margin-top:20px;color:#4f46e5;text-decoration:none;}
+</style>
+</head>
+<body>
+
+<div class="main">
+
+<div class="topbar">
+<h1>Products</h1>
+<a href="{{ url_for('add_product') }}">+ Add Product</a>
+</div>
+
+<form class="search-form" action="{{ url_for('search') }}" method="POST">
+<input type="text" name="search" placeholder="Search products by name...">
+<button type="submit">Search</button>
+</form>
+
+<div class="product-box">
+<table>
+<tr>
+<th>Product</th>
+<th>Category</th>
+<th>Quantity</th>
+<th>Price</th>
+<th>Expiry</th>
+<th>Action</th>
+</tr>
+
+{% for p in products %}
+<tr>
+<td>{{ p[1] }}</td>
+<td>{{ p[2] }}</td>
+<td>{{ p[3] }}</td>
+<td>₹{{ p[4] }}</td>
+<td>{{ p[5] }}</td>
+<td>
+<a class="edit" href="{{ url_for('edit_product', id=p[0]) }}">Edit</a>
+<a class="delete" href="{{ url_for('delete_product', id=p[0]) }}" onclick="return confirm('Delete this product?');">Delete</a>
+</td>
+</tr>
+{% else %}
+<tr>
+<td colspan="6" style="text-align:center;color:#64748b;">No products found.</td>
+</tr>
+{% endfor %}
+
+</table>
+</div>
+
+<a class="back" href="{{ url_for('dashboard') }}">&larr; Back to Dashboard</a>
+
+</div>
+
+</body>
+</html>
